@@ -8,6 +8,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
+# Use RA_NAME, RA_EMAIL, 
+import excel_reader
+
 browser = Chrome()
 browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
 
@@ -16,14 +19,13 @@ def nextPage():
     next_button = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "NextButton")))
     next_button.click()
 
-
 try:
 
     # Select community
 
-    # NAVW: QR~QID36~11
-    # NAVS: QR~QID36~12
-    # NAVE: QR~QID36~13
+    # NAW: QR~QID36~11
+    # NAS: QR~QID36~12
+    # NAE: QR~QID36~13
     # BSH: QR~QID36~17
     #TODO logic to decide building selection
     element = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "QR~QID36~17")))
