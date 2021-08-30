@@ -8,6 +8,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
+# Use RA_NAME, RA_EMAIL, 
+import excel_reader
+
 browser = Chrome()
 browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
 
@@ -17,7 +20,11 @@ def nextPage():
     next_button = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, "NextButton")))
     next_button.click()
 
+<<<<<<< HEAD
 
+=======
+try:
+>>>>>>> fe9ef5fceffa73b80f43e19a2ea058c37c47c5b8
 
 def main():
 
@@ -60,6 +67,13 @@ def main():
 
         time.sleep(0.5)
         nextPage()
+        # NAW: QR~QID36~11
+        # NAS: QR~QID36~12
+        # NAE: QR~QID36~13
+        # BSH: QR~QID36~17
+        #TODO logic to decide building selection
+        element = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "QR~QID36~17")))
+        element.click()
 
         #floor
         options = browser.find_elements_by_tag_name("option")
