@@ -2,7 +2,7 @@ import datetime
 import xlrd2 as xlrd
 
 # Function to read an excel sheet and assign variables for script
-loc = "~/Documents/Convo-Logs-Brett.xlsx"
+loc = "~/Downloads/MasterConvo.xlsx"
 
 wb = xlrd.open_workbook(loc)
 sheet = wb.sheet_by_index(0)
@@ -10,7 +10,7 @@ count = 0
 
 
 # Starts row 0 col 0: so subtract 1 from each
-RESDIENTS = [] # A double array full of all info needed for script
+RESDIENTS = [] # A array of dictionaries to each conversation
 for i in range(1, sheet.nrows):
     resident_i = {}
 

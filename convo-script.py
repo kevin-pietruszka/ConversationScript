@@ -14,11 +14,36 @@ from selenium.webdriver.support.ui import WebDriverWait
 browser = Chrome()
 browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
 
+ids = {
+    "NAW": "QR~QID36~11",
+    "NAS": "QR~QID36~12",
+    "NAE": "QR~QID36~13",
+    "BSH": "QR~QID36~17",
+    "ra":"QR~QID45",
+    "resident":"QR~QID2",
+    "building":"QR~QID39",
+    "foor":"QR~QID58",
+    "letter":"QR~QID91",
+    "date":"QR~QID3"
+}
+
 
 def nextPage():
-
+    #TODO Find better way to wait for next button. It has error occaisionaly 
+    time.sleep(0.5)
     next_button = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, "NextButton")))
     next_button.click()
+
+def wait(id):
+
+    return WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, id)))
+    
+def parse_options(tag, key):
+
+    options = browser.find_elements_by_tag_name(tag)
+    for opt in options:
+        if opt.text == key:
+            opt.click()
 
 
 def main():
@@ -32,61 +57,49 @@ def main():
         # NAS: QR~QID36~12
         # NAE: QR~QID36~13
         # BSH: QR~QID36~17
-        #TODO logic to decide building selection
-        area = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "QR~QID36~17")))
+        #TODO
+        area = wait(ids["BSH"])
         area.click()
 
         nextPage()
         
-        # Find name of person
-        name = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "QR~QID45")))
-        options = browser.find_elements_by_tag_name("option")
-        for opt in options:
-            #TODO replace with excel data
-            if opt.text == "Kevin Pietruszka":
-                opt.click()
+        #ra name
+        wait(ids["ra"])
+        parse_options("option", "Kevin Pietruszka")
 
-        #TODO Find better way to wait for next button. It has error occaisionaly 
-        time.sleep(0.5)
         nextPage()
 
-        # enter residents name
-        residents_name = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "QR~QID2")))
+        #residents name
+        residents_name = wait(ids["resident"])
         residents_name.send_keys("Brian Youn")
 
         #building
-        #TODO find ids for the other buildings
-        #BRN: QR~QID39~8, SMT: QR~QID39~9, HRS: QR~QID39~9
-        #TODO logic to decide building selection
-        building = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "QR~QID39")))
-        options = browser.find_elements_by_tag_name("option")
-        for opt in options:
-            if opt.text == "BRN":
-                opt.click()
+        wait(ids["building"])
+        parse_options("option", "BRN")
 
-        time.sleep(0.5)
         nextPage()
 
         #floor
-        building = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "QR~QID58")))
-        options = browser.find_elements_by_tag_name("option")
-        for opt in options:
-            if opt.text == "1":
-                opt.click()
+        wait(ids["foor"])
+        parse_options("option", "1")
 
-        time.sleep(0.5)
         nextPage()
 
-        #room number
-        room_letter = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, "QR~QID91")))
-        li = browser.find_elements_by_tag_name("label")
-        for l in li:
-            if l.text == "112":
-                l.click()
+        #room number and etter
+        wait(ids["letter"])
+        parse_options("label", "112")
+        parse_options("option", "A")
 
+        #date
+        date = wait(ids["date"])
+        date.send_keys("08-31-2021")
 
-        
-        
+        #contact type
+        parse_options("label", "In person")
+
+        #topic
+        parse_options("label", "Social Get to Know")
+
         time.sleep(5)
 
     finally:
