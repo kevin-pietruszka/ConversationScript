@@ -24,7 +24,8 @@ ids = {
     "building":"QR~QID39",
     "foor":"QR~QID58",
     "letter":"QR~QID91",
-    "date":"QR~QID3"
+    "date":"QR~QID3",
+    "description":"QR~QID49"
 }
 
 
@@ -98,9 +99,15 @@ def main():
         parse_options("label", "In person")
 
         #topic
-        parse_options("label", "Social Get to Know")
+        parse_options("label", "Social/Get-to-know")
 
-        time.sleep(5)
+        nextPage()
+
+        desc = wait(ids["description"])
+        desc.send_keys("sleeping on my floor")
+
+        time.sleep(15)
+
 
     finally:
         browser.quit()
