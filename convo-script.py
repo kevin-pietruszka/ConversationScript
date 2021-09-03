@@ -1,4 +1,5 @@
 
+import re
 from typing import final
 import time
 from selenium.webdriver import Chrome
@@ -9,10 +10,10 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
 # Use RA_NAME, RA_EMAIL, 
-#import excel_reader
+import excel_reader as er
 
 browser = Chrome()
-browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
+
 
 ids = {
     "NAW": "QR~QID36~11",
@@ -23,9 +24,10 @@ ids = {
     "resident":"QR~QID2",
     "building":"QR~QID39",
     "foor":"QR~QID58",
-    "letter":"QR~QID91",
+    "bedroom":"QR~QID91",
     "date":"QR~QID3",
-    "description":"QR~QID49"
+    "description":"QR~QID49",
+    "calendar":"QID3_cal"
 }
 
 
@@ -49,68 +51,80 @@ def parse_options(tag, key):
 
 def main():
 
-    try:
+    failed = []
+    fail = 0
+    for resident in er.RESDIENTS:
+        print(resident)
+        try:
+            
+            browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
+            time.sleep(3)
 
-        time.sleep(2)
+            # Select community
+            area = wait(ids[resident["area"]])
+            area.click()
 
-        # Select community
-        # NAW: QR~QID36~11
-        # NAS: QR~QID36~12
-        # NAE: QR~QID36~13
-        # BSH: QR~QID36~17
-        #TODO
-        area = wait(ids["BSH"])
-        area.click()
+            nextPage()
+            
+            #ra name
+            wait(ids["ra"])
+            parse_options("option", resident["ra_name"])
 
-        nextPage()
-        
-        #ra name
-        wait(ids["ra"])
-        parse_options("option", "Kevin Pietruszka")
+            nextPage()
 
-        nextPage()
+            #residents name
+            residents_name = wait(ids["resident"])
+            residents_name.send_keys(resident["name"])
 
-        #residents name
-        residents_name = wait(ids["resident"])
-        residents_name.send_keys("Brian Youn")
+            #building
+            wait(ids["building"])
+            parse_options("option", resident["building"])
 
-        #building
-        wait(ids["building"])
-        parse_options("option", "BRN")
+            nextPage()
 
-        nextPage()
+            #floor
+            wait(ids["foor"])
+            parse_options("option", resident["floor"])
 
-        #floor
-        wait(ids["foor"])
-        parse_options("option", "1")
+            nextPage()
 
-        nextPage()
-
-        #room number and etter
-        wait(ids["letter"])
-        parse_options("label", "112")
-        parse_options("option", "A")
-
-        #date
-        date = wait(ids["date"])
-        date.send_keys("08-31-2021")
-
-        #contact type
-        parse_options("label", "In person")
-
-        #topic
-        parse_options("label", "Social/Get-to-know")
-
-        nextPage()
-
-        desc = wait(ids["description"])
-        desc.send_keys("sleeping on my floor")
-
-        time.sleep(15)
+            #room number and letter
+            wait(ids["bedroom"])
+            date = wait(ids["date"])
+            wait("Logo")
+            wait(ids["calendar"])
+            parse_options("label", resident["apartment/room"])
+            parse_options("option", resident["bedroom"])
 
 
-    finally:
-        browser.quit()
+            #date
+            date.send_keys(resident["date"])
+
+            #contact type
+            # TODO
+            parse_options("label", "In person")
+
+            #topic
+            # TODO
+            parse_options("label", "Social/Get-to-know")
+
+            nextPage()
+
+            desc = wait(ids["description"])
+            desc.send_keys("description")
+
+            nextPage()
+            
+            time.sleep(10)
+
+        except:
+            
+            failed.append(resident["name"])
+            fail+=1
+            
+    print("This many entries failed, " + str(fail))
+    print(failed)
+    browser.quit()
 
 if __name__ == "__main__":
     main()

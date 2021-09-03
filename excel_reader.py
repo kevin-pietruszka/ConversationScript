@@ -14,18 +14,31 @@ RESDIENTS = [] # A array of dictionaries to each conversation
 for i in range(1, sheet.nrows):
     resident_i = {}
 
-    resident_i["RA_Name"] = sheet.cell_value(i, 0)
-    resident_i["RA_Email"] = sheet.cell_value(i, 1)
-    resident_i["Name"] = sheet.cell_value(i, 2)
-    resident_i["Building"] = sheet.cell_value(i, 3)
-    resident_i["Floor"] = int(sheet.cell_value(i, 4))
-    resident_i["Apartment/Room"] = int(sheet.cell_value(i, 5))
-    resident_i["Bedroom"] = sheet.cell_value(i, 6)
+    resident_i["ra_name"] = sheet.cell_value(i, 0)
+
+    if len(sheet.cell_value(i, 1)) > 0:
+        resident_i["ra_email"] = sheet.cell_value(i, 1)
+    else:
+        resident_i["ra_email"] = None
+
+    resident_i["name"] = sheet.cell_value(i, 2)
+    resident_i["building"] = sheet.cell_value(i, 3)
+
+    if resident_i["building"] in ["BRN", "SMT", "HRS"]:
+        resident_i["area"] = "BSH"
+    else:
+        resident_i["area"] = sheet.cell_value(i, 3)
+
+    resident_i["floor"] = str(int(sheet.cell_value(i, 4)))
+    resident_i["apartment/room"] = str(int(sheet.cell_value(i, 5)))
+    resident_i["bedroom"] = sheet.cell_value(i, 6)
     a1_as_datetime = datetime.datetime(*xlrd.xldate_as_tuple(sheet.cell_value(i, 7), wb.datemode))
     date = str(a1_as_datetime).split(" ")[0]
-    resident_i["Date"] = date[5:7] + "/" +date[8:] + "/" + date[0:4]
-    resident_i["Method"] = int(sheet.cell_value(i, 8))
-    resident_i["Topic"] = int(sheet.cell_value(i, 9))
+    resident_i["date"] = date[5:7] + "/" +date[8:] + "/" + date[0:4]
+
+    #resident_i["method"] = int(sheet.cell_value(i, 8))
+    #resident_i["topic"] = int(sheet.cell_value(i, 9))
+    resident_i["description"] = int(sheet.cell_value(i, 10))
 
     RESDIENTS.append(resident_i)
 
