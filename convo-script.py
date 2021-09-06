@@ -111,11 +111,11 @@ def main():
             nextPage()
 
             desc = wait(ids["description"])
-            desc.send_keys("description")
+            desc.send_keys(resident["description"])
 
             nextPage()
             
-            time.sleep(10)
+            time.sleep(5)
 
         except:
             
