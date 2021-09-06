@@ -8,7 +8,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 
-# Use RA_NAME, RA_EMAIL, 
+# Use RESIDENTS 
 import excel_reader
 
 browser = Chrome()
