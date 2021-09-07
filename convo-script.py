@@ -12,30 +12,20 @@ from selenium.webdriver.support.ui import WebDriverWait
 # Use RA_NAME, RA_EMAIL, 
 import excel_reader as er
 
+from dictionary import *
+
 browser = Chrome()
 
 
-ids = {
-    "NAW": "QR~QID36~11",
-    "NAS": "QR~QID36~12",
-    "NAE": "QR~QID36~13",
-    "BSH": "QR~QID36~17",
-    "ra":"QR~QID45",
-    "resident":"QR~QID2",
-    "building":"QR~QID39",
-    "foor":"QR~QID58",
-    "bedroom":"QR~QID91",
-    "date":"QR~QID3",
-    "description":"QR~QID49",
-    "calendar":"QID3_cal"
-}
+
 
 
 def nextPage():
     #TODO Find better way to wait for next button. It has error occaisionaly 
-    time.sleep(0.5)
+    time.sleep(0.75)
     next_button = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, "NextButton")))
     next_button.click()
+    
 
 def wait(id):
 
@@ -48,16 +38,19 @@ def parse_options(tag, key):
         if opt.text == key:
             opt.click()
 
+failed = []
+fail = 0
 
 def main():
 
-    failed = []
-    fail = 0
+    global fail, failed
+
+    browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
+    
     for resident in er.RESDIENTS:
-        print(resident)
+        #print(resident)
         try:
             
-            browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
             time.sleep(3)
 
             # Select community
@@ -114,17 +107,17 @@ def main():
             desc.send_keys(resident["description"])
 
             nextPage()
-            
-            time.sleep(5)
+
+            time.sleep(2)
+
+            browser.refresh()
 
         except:
-            
-            failed.append(resident["name"])
-            fail+=1
-            
-    print("This many entries failed, " + str(fail))
-    print(failed)
-    browser.quit()
+            print("Failed on: " + str(resident["name"]))
+            time.sleep(10)
+            browser.quit()
+            return
+   
 
 if __name__ == "__main__":
     main()
