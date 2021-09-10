@@ -47,22 +47,30 @@ def parse_options(tag, key):
     options = browser.find_elements_by_tag_name(tag)
 
     for opt in options:
-        print(opt.text + "\n")
         if opt.text == key:
             opt.click()
+    
+    #print()
 
 
 def main():
 
     failed = []
     fail = 0
+
+    browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
+    time.sleep(3)
+
+    browser.maximize_window()
+
     for resident in er.RESDIENTS:
         print(resident)
         #try:
         
-        browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
-        time.sleep(3)
-
+        browser.refresh()
+        time.sleep(5)
+        
+        
         # Select community
         area = wait(ids[resident["area"]])
         area.click()
@@ -97,6 +105,7 @@ def main():
         nextPage()
 
         #room number and letter
+        time.sleep(3)
         wait(ids["bedroom"])
         date = wait(ids["date"])
         wait("Logo")
@@ -123,9 +132,9 @@ def main():
 
         nextPage()
         
-        time.sleep(3)
-        browser.quit()
         time.sleep(5)
+        #browser.quit()
+        #time.sleep(5)
 
             
         """
