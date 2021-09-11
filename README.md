@@ -22,6 +22,6 @@ excel_reader.py file to be the location of your file.
 
 loc = "~/Downloads/MasterConvo.xlsx"
 
-Afterwards simply run the python script. It is still a new script so it might throw an error at some point. 
+Afterwards simply run the convo-script.py python script. It is still a new script so it might throw an error at some point. 
 If it fails delete all the rows that sucessfully ran and then download the file again.
 If you need any help contact Brett.
