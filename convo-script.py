@@ -87,7 +87,6 @@ fail = 0
 
 def main():
 
-<<<<<<< HEAD
     failed = []
     fail = 0
 
@@ -107,17 +106,6 @@ def main():
         # Select community
         area = wait(ids[resident["area"]])
         area.click()
-=======
-    global fail, failed
-
-    browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
-    
-    for resident in er.RESDIENTS:
-        #print(resident)
-        try:
-            
-            time.sleep(3)
->>>>>>> 3bfef124434c9239b5aa494d144c71184683861b
 
         nextPage()
         
@@ -169,21 +157,10 @@ def main():
         # TODO
         parse_options("label", "Social/Get-to-know")
 
-<<<<<<< HEAD
         nextPage()
 
         desc = wait(ids["description"])
         desc.send_keys(resident["description"])
-=======
-            desc = wait(ids["description"])
-            desc.send_keys(resident["description"])
-
-            nextPage()
-
-            time.sleep(2)
-
-            browser.refresh()
->>>>>>> 3bfef124434c9239b5aa494d144c71184683861b
 
         nextPage()
         
@@ -194,7 +171,6 @@ def main():
             
         """
         except:
-<<<<<<< HEAD
             
             failed.append(resident["name"])
             fail+=1
@@ -203,13 +179,6 @@ def main():
     #print("This many entries failed, " + str(fail))
     #print(failed)
     #browser.quit()
-=======
-            print("Failed on: " + str(resident["name"]))
-            time.sleep(10)
-            browser.quit()
-            return
-   
->>>>>>> 3bfef124434c9239b5aa494d144c71184683861b
 
 if __name__ == "__main__":
     main()
