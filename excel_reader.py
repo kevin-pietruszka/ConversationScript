@@ -38,7 +38,7 @@ for i in range(1, sheet.nrows):
 
     #resident_i["method"] = int(sheet.cell_value(i, 8))
     #resident_i["topic"] = int(sheet.cell_value(i, 9))
-    resident_i["description"] = int(sheet.cell_value(i, 10))
+    resident_i["description"] = str(sheet.cell_value(i, 10))
 
     RESDIENTS.append(resident_i)
 
