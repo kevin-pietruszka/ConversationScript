@@ -17,23 +17,12 @@ import excel_reader
 # Use RA_NAME, RA_EMAIL, 
 import excel_reader as er
 
+from dictionary import *
+
 browser = Chrome()
 
 
-ids = {
-    "NAW": "QR~QID36~11",
-    "NAS": "QR~QID36~12",
-    "NAE": "QR~QID36~13",
-    "BSH": "QR~QID36~17",
-    "ra":"QR~QID45",
-    "resident":"QR~QID2",
-    "building":"QR~QID39",
-    "foor":"QR~QID58",
-    "bedroom":"QR~QID91",
-    "date":"QR~QID3",
-    "description":"QR~QID49",
-    "calendar":"QID3_cal"
-}
+
 
 
 def nextPage():
@@ -74,9 +63,10 @@ ids = {
 
 def nextPage():
     #TODO Find better way to wait for next button. It has error occaisionaly 
-    time.sleep(0.5)
+    time.sleep(0.75)
     next_button = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, "NextButton")))
     next_button.click()
+    
 
 def wait(id):
 
@@ -92,9 +82,12 @@ def parse_options(tag, key):
     
     #print()
 
+failed = []
+fail = 0
 
 def main():
 
+<<<<<<< HEAD
     failed = []
     fail = 0
 
@@ -114,6 +107,17 @@ def main():
         # Select community
         area = wait(ids[resident["area"]])
         area.click()
+=======
+    global fail, failed
+
+    browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
+    
+    for resident in er.RESDIENTS:
+        #print(resident)
+        try:
+            
+            time.sleep(3)
+>>>>>>> 3bfef124434c9239b5aa494d144c71184683861b
 
         nextPage()
         
@@ -165,10 +169,21 @@ def main():
         # TODO
         parse_options("label", "Social/Get-to-know")
 
+<<<<<<< HEAD
         nextPage()
 
         desc = wait(ids["description"])
         desc.send_keys(resident["description"])
+=======
+            desc = wait(ids["description"])
+            desc.send_keys(resident["description"])
+
+            nextPage()
+
+            time.sleep(2)
+
+            browser.refresh()
+>>>>>>> 3bfef124434c9239b5aa494d144c71184683861b
 
         nextPage()
         
@@ -179,6 +194,7 @@ def main():
             
         """
         except:
+<<<<<<< HEAD
             
             failed.append(resident["name"])
             fail+=1
@@ -187,6 +203,13 @@ def main():
     #print("This many entries failed, " + str(fail))
     #print(failed)
     #browser.quit()
+=======
+            print("Failed on: " + str(resident["name"]))
+            time.sleep(10)
+            browser.quit()
+            return
+   
+>>>>>>> 3bfef124434c9239b5aa494d144c71184683861b
 
 if __name__ == "__main__":
     main()

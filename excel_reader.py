@@ -42,11 +42,8 @@ for i in range(1, sheet.nrows):
 
     RESDIENTS.append(resident_i)
 
-
 """
 for res in RESDIENTS:
     print(res)
     print()
 """
-
-
