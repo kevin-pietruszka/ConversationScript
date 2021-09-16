@@ -53,7 +53,7 @@ ids = {
     "ra_email": "QR~QID38",
     "resident":"QR~QID2",
     "building":"QR~QID39",
-    "floor":"QR~QID77", #Kev had 58, its different for each building SMT 95
+    "floor":"QR~QID95", #Kev had 58, 77 for NAE its different for each building SMT 95
     "bedroom":"QR~QID91",
     "date":"QR~QID3",
     "description":"QR~QID49",
@@ -115,10 +115,15 @@ def main():
 
         #ra email
         ra_email = wait(ids["ra_email"])
-        ra_email.send_keys(resident["ra_email"])
 
+        if resident["ra_email"] == None:
+            pass
+        else:
+            ra_email.send_keys(resident["ra_email"])
 
+        time.sleep(1)
         nextPage()
+        time.sleep(1)
 
         #residents name
         residents_name = wait(ids["resident"])
@@ -128,13 +133,17 @@ def main():
         wait(ids["building"])
         parse_options("option", resident["building"])
 
+        time.sleep(1)
         nextPage()
+        time.sleep(1)
 
         #floor
         wait(ids["floor"])
         parse_options("option", resident["floor"])
 
+        time.sleep(1)
         nextPage()
+        time.sleep(1)
 
         #room number and letter
         time.sleep(3)
@@ -157,12 +166,16 @@ def main():
         # TODO
         parse_options("label", "Social/Get-to-know")
 
+        time.sleep(1)
         nextPage()
+        time.sleep(1)
 
         desc = wait(ids["description"])
         desc.send_keys(resident["description"])
 
+        time.sleep(1)
         nextPage()
+        
         
         time.sleep(5)
         #browser.quit()
