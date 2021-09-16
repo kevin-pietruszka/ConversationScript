@@ -60,6 +60,16 @@ ids = {
     "calendar":"QID3_cal"
 }
 
+def detFloorID(building):
+    if building == "SMT":
+        return "QR~QID95"
+    elif building == "NAE":
+        return "QR~QID77"
+    elif building == "BRN":
+        return "QR~QID77"
+    else:
+        raise NotImplementedError
+
 
 def nextPage():
     #TODO Find better way to wait for next button. It has error occaisionaly 
@@ -138,7 +148,7 @@ def main():
         time.sleep(1)
 
         #floor
-        wait(ids["floor"])
+        wait(detFloorID(resident["building"]))
         parse_options("option", resident["floor"])
 
         time.sleep(1)
