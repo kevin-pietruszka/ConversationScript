@@ -35,6 +35,7 @@ for i in range(1, sheet.nrows):
     resident_i["floor"] = str(int(sheet.cell_value(i, 4)))
     resident_i["apartment/room"] = str(int(sheet.cell_value(i, 5)))
     resident_i["bedroom"] = sheet.cell_value(i, 6).upper()
+    #print(sheet.cell_value(i, 7), wb.datemode)
     a1_as_datetime = datetime.datetime(*xlrd.xldate_as_tuple(sheet.cell_value(i, 7), wb.datemode))
     date = str(a1_as_datetime).split(" ")[0]
     resident_i["date"] = date[5:7] + "/" +date[8:] + "/" + date[0:4]

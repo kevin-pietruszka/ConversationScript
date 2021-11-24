@@ -22,9 +22,6 @@ from dictionary import *
 browser = Chrome()
 
 
-
-
-
 def nextPage():
     #TODO Find better way to wait for next button. It has error occaisionaly
     time.sleep(0.5)
