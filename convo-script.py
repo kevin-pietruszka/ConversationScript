@@ -1,35 +1,62 @@
 from typing import final
 import time
-from selenium.webdriver import Chrome
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options
+from xml.sax.saxutils import prepare_input_source
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
+from imp import IMP_HOOK
+from math import floor
+from os import preadv
+from turtle import back, delay
+from selenium import webdriver
+from chromedriver_py import binary_path 
+from service import Service
+import traceback
 
 # Use RA_NAME, RA_EMAIL, 
 import excel_reader as er
+from NAVids import *
 from ids import *
 
+previous = None
+EXTIME = 3
+link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_4U8wGXJRFOMekfk'
+# link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq"
 
 def nextPage():
-    #TODO Find better way to wait for next button. It has error occaisionaly
-    time.sleep(1)
-    next_button = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, "NextButton")))
+    next_button = WebDriverWait(browser, EXTIME).until(EC.element_to_be_clickable((By.NAME, "NextButton")))
     next_button.click()
-    time.sleep(1)
+    wait_for_page()
 
-def wait(id):
+def wait_for_page():
 
-    return WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, id)))
-    
-browser = Chrome()
+    body = WebDriverWait(browser, EXTIME).until(EC.visibility_of_all_elements_located((By.ID, "SurveyEngineBody")))
+    if previous != None:
+        wait_stale()
+
+def wait_stale():
+    global previous
+    return WebDriverWait(browser, EXTIME).until(EC.staleness_of(previous))
+
+def wait_click(toClick):
+    global previous 
+    temp = WebDriverWait(browser, EXTIME).until(EC.element_to_be_clickable((By.ID, toClick)))
+    temp.click()
+    previous = temp
+
+def wait_type(toTypeTo, message):
+    global previous
+    temp = WebDriverWait(browser, EXTIME).until(EC.element_to_be_clickable((By.ID, toTypeTo)))
+    temp.send_keys(message)
+    previous = temp
+
+
+service_object = Service(binary_path)
+browser = webdriver.Chrome(executable_path=binary_path)
 
 def main():
 
-    # browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
-    browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_8bG7y2Ts0IHdXCK')
-    time.sleep(3)
+    browser.get(link)
 
     idx = 0
 
@@ -39,79 +66,45 @@ def main():
             break;
 
         try:
+            wait_for_page()
             resident = er.RESDIENTS[idx]
             print(resident)
-            #try:
-            
-            # Select community
-            area = wait(areas[resident["area"]])
-            area.click()
 
+            area = wait_click(areas[resident['area']])
+            nextPage()
+
+            ra = wait_click(ras[resident['ra_name']])
+            nextPage()
+
+            res_name = wait_type(ids['resident'], resident['name'])
+            b = wait_click(buildings[resident['building']])
+            nextPage()
+
+            f = wait_click(floors[resident['building'] + resident['floor']])
             nextPage()
             
-            #ra name
-            ra = wait(RAs[resident["ra_name"]])
-            ra.click()
+            r = wait_click(rooms[resident['building'] + resident['apartment/room']])
+            l = wait_click(letters[resident['bedroom']])
+            d = wait_type(ids['date'], resident['date'])
 
-            #ra email
-            ra_email = wait(ids["ra_email"])
-            if resident["ra_email"] == None:
-                pass
-            else:
-                ra_email.send_keys(resident["ra_email"])
+            inperson = wait_click("QID48-1-label")
+
+            gettoknow = wait_click("QID41-1-label")
 
             nextPage()
 
-            #residents name
-            residents_name = wait(ids["resident"])
-            residents_name.send_keys(resident["name"])
+            wait_type(ids['description'], resident['description'])
 
-            #building
-            b = wait(buildings[resident["building"]])
-            b.click()
-
-            nextPage()
-
-            #floor
-            f = wait(floors[resident["building"] + resident["floor"]])
-            f.click()
-
-            nextPage()
-            
-
-            #room number and letter
-            date = wait(ids["date"])
-            date.send_keys(resident["date"])
-            room = wait(rooms[resident["building"] + resident["apartment/room"]])
-            room.click()
-            letter = wait(letters[resident["bedroom"]])
-            letter.click()
-
-            #contact type
-            # TODO
-            # parse_options("label", "In person")
-            inperson = wait("QID48-1-label")
-            inperson.click()
-
-            #topic
-            # TODO
-            # parse_options("label", "Social/Get-to-know")
-            gettoknow = wait("QID41-1-label")
-            gettoknow.click()
-
-            nextPage()
-
-            desc = wait(ids["description"])
-            desc.send_keys(resident["description"])
-
-            # nextPage()
             idx+=1
-            time.sleep(5)
             
         except:
 
-            browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_8bG7y2Ts0IHdXCK')
-            print("retrying")
+            print(traceback.format_exc())
+            browser.delete_all_cookies()
+            browser.get(link)
+            print("Retrying")
+            browser.quit()
 
 if __name__ == "__main__":
     main()
+    browser.quit()
