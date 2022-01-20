@@ -12,7 +12,8 @@ ids = {
 }
 
 RAs = {
-    "Kantwon Rogers":"QR~QID127~105"
+    "Kantwon Rogers":"QR~QID127~105",
+    "Brett Pietruszka": "QR~QID45~127"
 }
 
 areas = {
@@ -27,14 +28,16 @@ buildings = {
     "BRN": "QR~QID39~8",
     "SMT": "QR~QID39~9",
     "HRS": "QR~QID39~10",
-    "HAN": "QR~QID39~11"
+    "HAN": "QR~QID39~11",
+    "NAE": "QR~QID39~5"
 }
 
 floors = {
     "BRN1": "QR~QID58~2",
     "BRN2": "QR~QID58~11",
     "BRN3": "QR~QID58~3",
-    "HAN2": "QR~QID115~11"
+    "HAN2": "QR~QID115~11",
+    "NAE6": "QR~QID77~6"
 }
 
 rooms = {
@@ -53,7 +56,40 @@ rooms = {
     "HAN213":"QID88-171-label",
     "HAN214":"QID88-172-label",
     "HAN215":"QID88-173-label",
+    
+    "NAE602" : "QID83-1-label",
+    "NAE604" : "QID83-88-label",
+    "NAE605" : "QID83-89-label",
+    "NAE606" : "QID83-90-label",
+    "NAE607" : "QID83-91-label",
+    "NAE609" : "QID83-92-label",
+    "NAE610" : "QID83-93-label",
+    "NAE613" : "QID83-94-label",
+    "NAE614" : "QID83-95-label",
+    "NAE615" : "QID83-96-label",
+    "NAE616" : "QID83-97-label",
+    "NAE618" : "QID83-98-label",
+    "NAE619" : "QID83-99-label",
 }
+
+"""
+naerooms = {
+    "NAE602" : "QID83-1-label",
+    "NAE604" : "QID83-88-label",
+    "NAE605" : "QID83-89-label",
+    "NAE606" : "QID83-90-label",
+    "NAE607" : "QID83-91-label",
+    "NAE609" : "QID83-92-label",
+    "NAE610" : "QID83-93-label",
+    "NAE613" : "QID83-94-label",
+    "NAE614" : "QID83-95-label",
+    "NAE615" : "QID83-96-label",
+    "NAE616" : "QID83-97-label",
+    "NAE618" : "QID83-98-label",
+    "NAE619" : "QID83-99-label",
+}
+"""
+
 
 letters = {
     "A":"QR~QID91~1",
