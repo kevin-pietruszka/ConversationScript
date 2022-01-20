@@ -1,11 +1,6 @@
-from asyncio import sleep
 from curses.ascii import DEL
 from email.policy import default
 from imp import IMP_HOOK
-from math import floor
-from multiprocessing.connection import wait
-from os import preadv
-from turtle import back, delay
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait

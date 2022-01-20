@@ -1,12 +1,7 @@
-from typing import final
-from xml.sax.saxutils import prepare_input_source
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from imp import IMP_HOOK
-from math import floor
-from os import preadv
-from turtle import back, delay
 from selenium import webdriver
 from chromedriver_py import binary_path 
 from service import Service
