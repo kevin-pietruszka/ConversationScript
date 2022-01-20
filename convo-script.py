@@ -1,5 +1,4 @@
 from typing import final
-import time
 from xml.sax.saxutils import prepare_input_source
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
