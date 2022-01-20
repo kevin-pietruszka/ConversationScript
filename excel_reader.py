@@ -39,14 +39,18 @@ for i in range(1, sheet.nrows):
     date = str(a1_as_datetime).split(" ")[0]
     resident_i["date"] = date[5:7] + "-" +date[8:] + "-" + date[0:4]
 
-    #resident_i["method"] = int(sheet.cell_value(i, 8))
-    #resident_i["topic"] = int(sheet.cell_value(i, 9))
-    resident_i["description"] = str(sheet.cell_value(i, 10))
+    resident_i["method"] = int(sheet.cell_value(i, 8))
+    resident_i["topic"] = int(sheet.cell_value(i, 9))
+    resident_i["purpose"] = sheet.cell_value(i, 10)
+    if resident_i["purpose"] == "":
+        resident_i["purpose"] = 0
+    else:
+        resident_i["purpose"] = int(resident_i["purpose"])
+    resident_i["description"] = str(sheet.cell_value(i, 11))
 
     RESDIENTS.append(resident_i)
 
-"""
+
 for res in RESDIENTS:
     print(res)
     print()
-"""

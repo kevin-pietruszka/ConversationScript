@@ -2,6 +2,12 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from imp import IMP_HOOK
+<<<<<<< HEAD
+=======
+from math import floor
+#from os import preadv
+#from turtle import back, delay
+>>>>>>> 542cf52107b21872c0f1c9828ac70921bf23e50d
 from selenium import webdriver
 from chromedriver_py import binary_path 
 from service import Service
@@ -14,8 +20,22 @@ from ids import *
 
 previous = None
 EXTIME = 3
-link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_4U8wGXJRFOMekfk'
-# link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq"
+link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_4U8wGXJRFOMekfk' # NAV/BSH
+# link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq" # east campus
+
+
+def select_communication(resident):
+    
+    meth = wait_click(areas[str(resident['method'])])
+
+    topic = wait_click(areas[str(resident['topic'])])
+
+    nextPage()
+
+    if resident['topic'] == 7: 
+        purpose = wait_click(areas[str(resident['purpose'])])
+
+    desc = wait_type(ids['description'], resident['description'])
 
 def nextPage():
     next_button = WebDriverWait(browser, EXTIME).until(EC.element_to_be_clickable((By.NAME, "NextButton")))
@@ -57,7 +77,7 @@ def main():
     while True:
 
         if (idx >= len(er.RESDIENTS)):
-            break;
+            break
 
         try:
             wait_for_page()
@@ -76,11 +96,26 @@ def main():
 
             f = wait_click(floors[resident['building'] + resident['floor']])
             nextPage()
+
             
             r = wait_click(rooms[resident['building'] + resident['apartment/room']])
             l = wait_click(letters[resident['bedroom']])
             d = wait_type(ids['date'], resident['date'])
 
+            meth = wait_click(methods[str(resident['method'])])
+
+            topic = wait_click(topics[str(resident['topic'])])
+
+            nextPage()
+
+            if resident['topic'] == 7: 
+                purpose = wait_click(purposes[str(resident['purpose'])])
+
+            desc = wait_type(ids['description'], resident['description'])
+            
+            nextPage()
+
+            """
             inperson = wait_click("QID48-1-label")
 
             gettoknow = wait_click("QID41-1-label")
@@ -88,6 +123,7 @@ def main():
             nextPage()
 
             wait_type(ids['description'], resident['description'])
+            """
 
             idx+=1
             
