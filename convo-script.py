@@ -1,207 +1,140 @@
-
-import re
-from typing import final
-import time
-from selenium.webdriver import Chrome
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-
-
-# Use RESIDENTS 
-
-import excel_reader
+from imp import IMP_HOOK
+<<<<<<< HEAD
+=======
+from math import floor
+#from os import preadv
+#from turtle import back, delay
+>>>>>>> 542cf52107b21872c0f1c9828ac70921bf23e50d
+from selenium import webdriver
+from chromedriver_py import binary_path 
+from service import Service
+import traceback
 
 # Use RA_NAME, RA_EMAIL, 
 import excel_reader as er
+from NAVids import *
+from ids import *
 
-from dictionary import *
+previous = None
+EXTIME = 3
+link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_4U8wGXJRFOMekfk' # NAV/BSH
+# link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq" # east campus
 
-browser = Chrome()
 
+def select_communication(resident):
+    
+    meth = wait_click(areas[str(resident['method'])])
 
+    topic = wait_click(areas[str(resident['topic'])])
 
+    nextPage()
 
+    if resident['topic'] == 7: 
+        purpose = wait_click(areas[str(resident['purpose'])])
+
+    desc = wait_type(ids['description'], resident['description'])
 
 def nextPage():
-    #TODO Find better way to wait for next button. It has error occaisionaly
-    time.sleep(0.5)
-    next_button = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, "NextButton")))
+    next_button = WebDriverWait(browser, EXTIME).until(EC.element_to_be_clickable((By.NAME, "NextButton")))
     next_button.click()
+    wait_for_page()
 
-def wait(id):
+def wait_for_page():
 
-    return WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, id)))
-    
-def parse_options(tag, key):
+    body = WebDriverWait(browser, EXTIME).until(EC.visibility_of_all_elements_located((By.ID, "SurveyEngineBody")))
+    if previous != None:
+        wait_stale()
 
-    options = browser.find_elements_by_tag_name(tag)
+def wait_stale():
+    global previous
+    return WebDriverWait(browser, EXTIME).until(EC.staleness_of(previous))
 
-import excel_reader as er
+def wait_click(toClick):
+    global previous 
+    temp = WebDriverWait(browser, EXTIME).until(EC.element_to_be_clickable((By.ID, toClick)))
+    temp.click()
+    previous = temp
 
-browser = Chrome()
-
-
-ids = {
-    "NAW": "QR~QID36~11",
-    "NAS": "QR~QID36~12",
-    "NAE": "QR~QID36~13",
-    "BSH": "QR~QID36~17",
-    "ra":"QR~QID45",
-    "ra_email": "QR~QID38",
-    "resident":"QR~QID2",
-    "building":"QR~QID39",
-    "floor":"QR~QID95", #Kev had 58, 77 for NAE its different for each building SMT 95
-    "bedroom":"QR~QID91",
-    "date":"QR~QID3",
-    "description":"QR~QID49",
-    "calendar":"QID3_cal"
-}
-
-def detFloorID(building):
-    if building == "SMT":
-        return "QR~QID95"
-    elif building == "NAE":
-        return "QR~QID77"
-    elif building == "BRN":
-        return "QR~QID77"
-    else:
-        raise NotImplementedError
+def wait_type(toTypeTo, message):
+    global previous
+    temp = WebDriverWait(browser, EXTIME).until(EC.element_to_be_clickable((By.ID, toTypeTo)))
+    temp.send_keys(message)
+    previous = temp
 
 
-def nextPage():
-    #TODO Find better way to wait for next button. It has error occaisionaly 
-    time.sleep(0.75)
-    next_button = WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.NAME, "NextButton")))
-    next_button.click()
-    
-
-def wait(id):
-
-    return WebDriverWait(browser, 10).until(EC.presence_of_element_located((By.ID, id)))
-    
-def parse_options(tag, key):
-
-    options = browser.find_elements_by_tag_name(tag)
-
-    for opt in options:
-        if opt.text == key:
-            opt.click()
-    
-    #print()
-
-failed = []
-fail = 0
+service_object = Service(binary_path)
+browser = webdriver.Chrome(executable_path=binary_path)
 
 def main():
 
-    failed = []
-    fail = 0
+    browser.get(link)
 
-    browser.get('https://gatech.co1.qualtrics.com/jfe/form/SV_da3BNVPrp4VvN5Q')
-    time.sleep(3)
+    idx = 0
 
-    browser.maximize_window()
+    while True:
 
-    for resident in er.RESDIENTS:
-        print(resident)
-        #try:
-        
-        browser.refresh()
-        time.sleep(5)
-        
-        
-        # Select community
-        area = wait(ids[resident["area"]])
-        area.click()
+        if (idx >= len(er.RESDIENTS)):
+            break
 
-        nextPage()
-        
-        #ra name
-        wait(ids["ra"])
-        parse_options("option", resident["ra_name"])
+        try:
+            wait_for_page()
+            resident = er.RESDIENTS[idx]
+            print(resident)
 
-        #ra email
-        ra_email = wait(ids["ra_email"])
+            area = wait_click(areas[resident['area']])
+            nextPage()
 
-        if resident["ra_email"] == None:
-            pass
-        else:
-            ra_email.send_keys(resident["ra_email"])
+            ra = wait_click(ras[resident['ra_name']])
+            nextPage()
 
-        time.sleep(1)
-        nextPage()
-        time.sleep(1)
+            res_name = wait_type(ids['resident'], resident['name'])
+            b = wait_click(buildings[resident['building']])
+            nextPage()
 
-        #residents name
-        residents_name = wait(ids["resident"])
-        residents_name.send_keys(resident["name"])
-
-        #building
-        wait(ids["building"])
-        parse_options("option", resident["building"])
-
-        time.sleep(1)
-        nextPage()
-        time.sleep(1)
-
-        #floor
-        wait(detFloorID(resident["building"]))
-        parse_options("option", resident["floor"])
-
-        time.sleep(1)
-        nextPage()
-        time.sleep(1)
-
-        #room number and letter
-        time.sleep(3)
-        wait(ids["bedroom"])
-        date = wait(ids["date"])
-        wait("Logo")
-        wait(ids["calendar"])
-        parse_options("label", resident["apartment/room"])
-        parse_options("option", resident["bedroom"])
-
-
-        #date
-        date.send_keys(resident["date"])
-
-        #contact type
-        # TODO
-        parse_options("label", "In person")
-
-        #topic
-        # TODO
-        parse_options("label", "Social/Get-to-know")
-
-        time.sleep(1)
-        nextPage()
-        time.sleep(1)
-
-        desc = wait(ids["description"])
-        desc.send_keys(resident["description"])
-
-        time.sleep(1)
-        nextPage()
-        
-        
-        time.sleep(5)
-        #browser.quit()
-        #time.sleep(5)
+            f = wait_click(floors[resident['building'] + resident['floor']])
+            nextPage()
 
             
-        """
+            r = wait_click(rooms[resident['building'] + resident['apartment/room']])
+            l = wait_click(letters[resident['bedroom']])
+            d = wait_type(ids['date'], resident['date'])
+
+            meth = wait_click(methods[str(resident['method'])])
+
+            topic = wait_click(topics[str(resident['topic'])])
+
+            nextPage()
+
+            if resident['topic'] == 7: 
+                purpose = wait_click(purposes[str(resident['purpose'])])
+
+            desc = wait_type(ids['description'], resident['description'])
+            
+            nextPage()
+
+            """
+            inperson = wait_click("QID48-1-label")
+
+            gettoknow = wait_click("QID41-1-label")
+
+            nextPage()
+
+            wait_type(ids['description'], resident['description'])
+            """
+
+            idx+=1
+            
         except:
-            
-            failed.append(resident["name"])
-            fail+=1
-        """
-            
-    #print("This many entries failed, " + str(fail))
-    #print(failed)
-    #browser.quit()
+
+            print(traceback.format_exc())
+            browser.delete_all_cookies()
+            browser.get(link)
+            print("Retrying")
+            browser.quit()
 
 if __name__ == "__main__":
     main()
+    browser.quit()
