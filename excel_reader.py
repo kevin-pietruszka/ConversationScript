@@ -2,7 +2,8 @@ import datetime
 import xlrd2 as xlrd
 
 # Function to read an excel sheet and assign variables for script
-loc = "~/Downloads/a.xlsx"
+# TODO
+loc = "conversations.xlsx"
 
 wb = xlrd.open_workbook(loc)
 sheet = wb.sheet_by_index(0)
@@ -51,6 +52,7 @@ for i in range(1, sheet.nrows):
     RESDIENTS.append(resident_i)
 
 
-for res in RESDIENTS:
-    print(res)
-    print()
+if __name__ == "__main__":
+    for res in RESDIENTS:
+        print(res)
+        print()

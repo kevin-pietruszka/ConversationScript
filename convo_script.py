@@ -1,43 +1,35 @@
+# 3rd party libraries
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from imp import IMP_HOOK
-<<<<<<< HEAD
-=======
-from math import floor
-#from os import preadv
-#from turtle import back, delay
->>>>>>> 542cf52107b21872c0f1c9828ac70921bf23e50d
 from selenium import webdriver
 from chromedriver_py import binary_path 
 from service import Service
 import traceback
 
-# Use RA_NAME, RA_EMAIL, 
-import excel_reader as er
-from NAVids import *
-from ids import *
 
+#TODO  Change which link you are 
+is_nav = True
+
+# data files
+import excel_reader as er
+from nav_ids import *
+from general_ids import *
+
+
+# global vars and constants
 previous = None
 EXTIME = 3
-link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_4U8wGXJRFOMekfk' # NAV/BSH
-# link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq" # east campus
+nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_4U8wGXJRFOMekfk' # NAV/BSH
+east_link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq" # east campus
 
+link = None
+if is_nav:
+    link = nav_link
+else:
+    link = east_link
 
-def select_communication(resident):
-    
-    meth = wait_click(areas[str(resident['method'])])
-
-    topic = wait_click(areas[str(resident['topic'])])
-
-    nextPage()
-
-    if resident['topic'] == 7: 
-        purpose = wait_click(areas[str(resident['purpose'])])
-
-    desc = wait_type(ids['description'], resident['description'])
-
-def nextPage():
+def next_page():
     next_button = WebDriverWait(browser, EXTIME).until(EC.element_to_be_clickable((By.NAME, "NextButton")))
     next_button.click()
     wait_for_page()
@@ -69,7 +61,7 @@ service_object = Service(binary_path)
 browser = webdriver.Chrome(executable_path=binary_path)
 
 def main():
-
+    
     browser.get(link)
 
     idx = 0
@@ -85,17 +77,19 @@ def main():
             print(resident)
 
             area = wait_click(areas[resident['area']])
-            nextPage()
+            next_page()
 
             ra = wait_click(ras[resident['ra_name']])
-            nextPage()
+
+            if is_nav:
+                next_page()
 
             res_name = wait_type(ids['resident'], resident['name'])
             b = wait_click(buildings[resident['building']])
-            nextPage()
+            next_page()
 
             f = wait_click(floors[resident['building'] + resident['floor']])
-            nextPage()
+            next_page()
 
             
             r = wait_click(rooms[resident['building'] + resident['apartment/room']])
@@ -106,24 +100,14 @@ def main():
 
             topic = wait_click(topics[str(resident['topic'])])
 
-            nextPage()
+            next_page()
 
             if resident['topic'] == 7: 
                 purpose = wait_click(purposes[str(resident['purpose'])])
 
             desc = wait_type(ids['description'], resident['description'])
             
-            nextPage()
-
-            """
-            inperson = wait_click("QID48-1-label")
-
-            gettoknow = wait_click("QID41-1-label")
-
-            nextPage()
-
-            wait_type(ids['description'], resident['description'])
-            """
+            # next_page()
 
             idx+=1
             
