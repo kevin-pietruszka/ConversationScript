@@ -12,25 +12,21 @@ the excel_reader.py and the locations are all marked with the comment of "#TODO"
 
 # Setup and Usage
 
-First, you need to install all these libraries using pip
+First, you need to install all these libraries using pip/pip3 or you can set up a virtual environment with these libraries.
 
-seleium
-xlrd2
-service
-datetime
-
-If I missed a library, just when it doubt pip install what it says to do. 
+- seleium
+- xlrd2
+- service
+- datetime
 
 For the chrome driver, you first need to check your chrome version or if you dont have chrome install it or look into the option
 of downloading the appropiate driver. After finding the version, use this command to download the driver for the specific version of chrome that you have:
 
 pip install chromedriver-py==YOUR VERSION  (or pip3 if that is the installed version of pip)
 
-
 Second, you must set up your excel spreedsheet that the script will pull the data from.
-Most of this data only needs to be completed once. Below is the link to the master sheet.
-Make a copy of the master sheet and put your data in. 
+Most of this data only needs to be completed once. Below is a link to an example sheet.
 
-https://docs.google.com/spreadsheets/d/11OUO7HHQl-Fs4Uou1oj1Yq1psZI96MdPdA3L9G5ibUY/edit?usp=sharing 
+https://docs.google.com/spreadsheets/d/16Dz5gRLQUqZ6qLrWjEvd_B2steo0TlQLvCoelLU0BR8/edit?usp=sharing
 
 After you have filled out this data. Download this document as an .xlsx file and place it in the same directory as the script and run convo_script.py
