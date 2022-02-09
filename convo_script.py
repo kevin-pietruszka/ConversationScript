@@ -1,3 +1,5 @@
+
+
 # 3rd party libraries
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
@@ -10,6 +12,7 @@ import traceback
 
 #TODO  Change which link you are 
 is_nav = True
+want_email = False
 
 # data files
 import excel_reader as er
@@ -81,6 +84,9 @@ def main():
 
             ra = wait_click(ras[resident['ra_name']])
 
+            if want_email:
+                email = wait_type(ids['ra_email'], resident['ra_email'])
+
             if is_nav:
                 next_page()
 
@@ -107,7 +113,7 @@ def main():
 
             desc = wait_type(ids['description'], resident['description'])
             
-            # next_page()
+            next_page()
 
             idx+=1
             
