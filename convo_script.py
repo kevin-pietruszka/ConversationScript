@@ -12,7 +12,7 @@ import traceback
 
 #TODO  Change which link you are 
 is_nav = True
-want_email = False
+want_email = True
 
 # data files
 import excel_reader as er
