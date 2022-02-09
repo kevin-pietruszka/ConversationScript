@@ -107,7 +107,7 @@ def main():
 
             desc = wait_type(ids['description'], resident['description'])
             
-            # next_page()
+            next_page()
 
             idx+=1
             
