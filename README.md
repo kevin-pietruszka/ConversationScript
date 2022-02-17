@@ -7,6 +7,8 @@ the excel_reader.py and the locations are all marked with the comment of "#TODO"
 
 - is_nav in the convo_script.py is true for the nav area and false for the east campus dorms
 
+- want_email in the convo_script.py is personal preference. Set this value to true if you would like to recieve a confirmation email, but make sure you actually have an email in the corresponding column of your spreadsheet otherwise it will send the email to Kevin :)...
+
 - loc in excel_reader will change where the directory is for the excel file containing the list of residents and information
 
 
