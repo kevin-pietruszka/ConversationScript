@@ -3,8 +3,9 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
-from chromedriver_py import binary_path 
-from service import Service
+import chromedriver_binary
+# from chromedriver_py import binary_path 
+# from service import Service
 import traceback
 
 
@@ -57,8 +58,12 @@ def wait_type(toTypeTo, message):
     previous = temp
 
 
-service_object = Service(binary_path)
-browser = webdriver.Chrome(executable_path=binary_path)
+# service_object = Service(binary_path)
+# browser = webdriver.Chrome(executable_path=binary_path)
+
+import chromedriver_binary
+browser = webdriver.Chrome()
+
 
 def main():
     
@@ -107,7 +112,7 @@ def main():
 
             desc = wait_type(ids['description'], resident['description'])
             
-            # next_page()
+            next_page()
 
             idx+=1
             
