@@ -24,7 +24,7 @@ from general_ids import *
 # global vars and constants
 previous = None
 EXTIME = 3
-nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_4U8wGXJRFOMekfk' # NAV/BSH
+nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_abYKCk3uqiqmRSe' # NAV/BSH
 east_link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq" # east campus
 
 link = None
