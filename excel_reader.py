@@ -3,8 +3,9 @@ import xlrd2 as xlrd
 
 # Function to read an excel sheet and assign variables for script
 # TODO
-#loc = "221-Convo-Logs.xlsx"
-loc = "conversations.xlsx"
+loc = "225-Convo-Logs.xlsx"
+#loc = "~/Downloads/Reese.xlsx"
+#loc = "conversationsmaelynn.xlsx"
 #loc = "~/Downloads/7th-Convo-Logs.xlsx"
 
 wb = xlrd.open_workbook(loc)
