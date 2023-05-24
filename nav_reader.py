@@ -5,7 +5,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium import webdriver
-from chromedriver_py import binary_path 
+##from chromedriver_py import binary_path 
 from service import Service
 import traceback
 import json
@@ -25,15 +25,18 @@ ids = {
 
 
 
-service_object = Service(binary_path)
-browser = webdriver.Chrome(executable_path=binary_path)
+# service_object = Service(binary_path)
+# browser = webdriver.Chrome(executable_path=binary_path)
+
+import chromedriver_binary
+browser = webdriver.Chrome()
 
 #Change this if connection is slow
 EXTIME = 10
 previous = None
+previous_option = None
 
-
-link = "https://gatech.co1.qualtrics.com/jfe/form/SV_4U8wGXJRFOMekfk"
+link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_3R8ddlzjI7zwGEe'
 
 
 def nextPage():
@@ -75,16 +78,26 @@ def wait_for_page():
 
 
 def list_options(tag):
-
+    global previous_option 
+    if previous_option is not None:
+        WebDriverWait(browser, EXTIME).until(EC.staleness_of(previous_option))
     WebDriverWait(browser, EXTIME).until(EC.presence_of_all_elements_located((By.TAG_NAME, tag)))
     options = browser.find_elements_by_tag_name(tag)
+
+    #print("inputs, ", options)   
+    print(len(options), options[0])
+    
+    previous_option = options[0]
+
     out = {}
     for opt in options:
-        
+
         kevin = browser.execute_script('var items = {}; for (index = 0; index < arguments[0].attributes.length; ++index) { items[arguments[0].attributes[index].name] = arguments[0].attributes[index].value }; return items;', opt)
         temp = str(kevin.get('id'))
-        if temp != 'None' and opt.text != "":
-            out[opt.text] = temp
+        
+        opt_text = opt.text
+        if temp != 'None' and opt_text != "":
+            out[opt_text] = temp
 
     print(out)
     print("")
@@ -98,6 +111,7 @@ def find_rooms(building):
     WebDriverWait(browser, EXTIME).until(EC.presence_of_all_elements_located((By.TAG_NAME, "input")))
     room_nums = browser.find_elements_by_xpath("//li/span/label/span")
     inputs = browser.find_elements_by_xpath("//li/input")
+
 
     for i in range(len(inputs)):
 
@@ -194,6 +208,8 @@ def main():
 
         print(traceback.format_exc())
         browser.quit()
+
+
 
 if __name__ == "__main__":
     main()

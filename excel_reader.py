@@ -3,7 +3,10 @@ import xlrd2 as xlrd
 
 # Function to read an excel sheet and assign variables for script
 # TODO
-loc = "conversations.xlsx"
+loc = "234-Convo-Logs-part2.xlsx"
+#loc = "~/Downloads/Reese.xlsx"
+#loc = "conversationsmaelynn.xlsx"
+#loc = "~/Downloads/7th-Convo-Logs.xlsx"
 
 wb = xlrd.open_workbook(loc)
 sheet = wb.sheet_by_index(0)
@@ -23,9 +26,14 @@ for i in range(1, sheet.nrows):
     if len(sheet.cell_value(i, 1)) > 0:
         resident_i["ra_email"] = sheet.cell_value(i, 1)
     else:
-        resident_i["ra_email"] = "kpietruszka3@gatech.edu"
+        resident_i["ra_email"] = ""
 
-    resident_i["name"] = sheet.cell_value(i, 2)
+    resident_name = sheet.cell_value(i, 2)
+
+    if resident_name == "": # Allows for empty rooms
+        continue
+
+    resident_i["name"] = resident_name
     resident_i["building"] = sheet.cell_value(i, 3)
 
     if resident_i["building"] in ["BRN", "SMT", "HRS"]:

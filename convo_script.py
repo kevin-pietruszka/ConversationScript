@@ -17,14 +17,15 @@ want_email = True
 
 # data files
 import excel_reader as er
-from nav_ids import *
+from nav_ids_old import *
 from general_ids import *
 
 
 # global vars and constants
 previous = None
 EXTIME = 3
-nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_4U8wGXJRFOMekfk' # NAV/BSH
+nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_3R8ddlzjI7zwGEe'  # NAV/BSH
+#'https://gatech.co1.qualtrics.com/jfe/form/SV_abYKCk3uqiqmRSe' old nav link
 east_link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq" # east campus
 
 link = None
@@ -127,7 +128,7 @@ def main():
             print(traceback.format_exc())
             browser.delete_all_cookies()
             browser.get(link)
-            print("Retrying")
+            print("Retrying", resident)
             browser.quit()
 
 if __name__ == "__main__":
