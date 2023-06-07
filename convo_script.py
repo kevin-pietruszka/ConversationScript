@@ -24,7 +24,8 @@ from general_ids import *
 # global vars and constants
 previous = None
 EXTIME = 3
-nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_3R8ddlzjI7zwGEe'  # NAV/BSH
+#nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_3R8ddlzjI7zwGEe'  # NAV/BSH
+nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_5dKMXL6Hx1C1tbM'  # NAV/BSH SUMMER 23
 #'https://gatech.co1.qualtrics.com/jfe/form/SV_abYKCk3uqiqmRSe' old nav link
 east_link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq" # east campus
 
@@ -85,8 +86,7 @@ def main():
             resident = er.RESDIENTS[idx]
             print(resident)
 
-            area = wait_click(areas[resident['area']])
-            next_page()
+            area = wait_click(areas[resident['area']]) # sum 23 removed next_page()
 
             ra = wait_click(ras[resident['ra_name']])
 
