@@ -3,7 +3,7 @@ import xlrd2 as xlrd
 
 # Function to read an excel sheet and assign variables for script
 # TODO
-loc = "234-Convo-Logs-part2.xlsx"
+loc = "2335-Convo-Logs.xlsx"
 #loc = "~/Downloads/Reese.xlsx"
 #loc = "conversationsmaelynn.xlsx"
 #loc = "~/Downloads/7th-Convo-Logs.xlsx"
