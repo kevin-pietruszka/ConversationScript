@@ -36,7 +36,7 @@ EXTIME = 10
 previous = None
 previous_option = None
 
-link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_3R8ddlzjI7zwGEe'
+link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_1YofsnFLCeTX8X4'
 
 
 def nextPage():
@@ -170,6 +170,8 @@ def get_ids():
 
             all_floors.update(updated_floor) 
             
+            print("floors: ", updated_floor.values())
+
             for floor in updated_floor.values():
 
                 wait_stale()

@@ -17,7 +17,7 @@ want_email = True
 
 # data files
 import excel_reader as er
-from nav_ids_old import *
+from NAVids import *
 from general_ids import *
 
 
@@ -25,7 +25,8 @@ from general_ids import *
 previous = None
 EXTIME = 3
 #nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_3R8ddlzjI7zwGEe'  # NAV/BSH
-nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_5dKMXL6Hx1C1tbM'  # NAV/BSH SUMMER 23
+# 'https://gatech.co1.qualtrics.com/jfe/form/SV_5dKMXL6Hx1C1tbM'  # NAV/BSH SUMMER 23
+nav_link = 'https://gatech.co1.qualtrics.com/jfe/form/SV_1YofsnFLCeTX8X4'
 #'https://gatech.co1.qualtrics.com/jfe/form/SV_abYKCk3uqiqmRSe' old nav link
 east_link = "https://gatech.co1.qualtrics.com/jfe/form/SV_72O9mThAOKPFYeq" # east campus
 
@@ -88,6 +89,8 @@ def main():
 
             area = wait_click(areas[resident['area']]) # sum 23 removed next_page()
 
+            next_page()
+
             ra = wait_click(ras[resident['ra_name']])
 
             if want_email:
@@ -103,7 +106,7 @@ def main():
             f = wait_click(floors[resident['building'] + resident['floor']])
             next_page()
 
-            
+            print(rooms[resident['building'] + resident['apartment/room']])
             r = wait_click(rooms[resident['building'] + resident['apartment/room']])
             l = wait_click(letters[resident['bedroom']])
             d = wait_type(ids['date'], resident['date'])

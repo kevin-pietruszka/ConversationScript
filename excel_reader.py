@@ -3,7 +3,7 @@ import xlrd2 as xlrd
 
 # Function to read an excel sheet and assign variables for script
 # TODO
-loc = "2335-Convo-Logs.xlsx"
+loc = "2336-Convo-Logs.xlsx"
 #loc = "~/Downloads/Reese.xlsx"
 #loc = "conversationsmaelynn.xlsx"
 #loc = "~/Downloads/7th-Convo-Logs.xlsx"
@@ -38,6 +38,8 @@ for i in range(1, sheet.nrows):
 
     if resident_i["building"] in ["BRN", "SMT", "HRS"]:
         resident_i["area"] = "BSH"
+    elif resident_i["building"] in ["NAW", "NAN"]:
+        resident_i["area"] = "NANW"
     else:
         resident_i["area"] = sheet.cell_value(i, 3)
 
